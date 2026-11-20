@@ -51,13 +51,18 @@ Comprobación del estado de las cuatro máquinas virtuales ejecutando `vagrant s
 
 ## 4. Configuración de la Capa 1: Balanceador de carga con Apache
 
-En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los módulos necesarios para actuar como proxy inverso y balanceador de carga mediante el algoritmo de reparto por peticiones:
+En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los módulos necesarios para actuar como proxy inverso y balanceador de carga mediante el algoritmo de reparto por peticiones (*Round Robin*):
 
 ```bash
 sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl
+```
+
+A continuación, en el archivo `/etc/apache2/sites-available/000-default.conf` se define el clúster `balancer://servidores_web` apuntando a los dos nodos de la Capa 2 (`192.168.10.11` y `192.168.10.12`), configurando los `VirtualHost` para los puertos 80 (HTTP) y 443 (HTTPS):
+
+```apache
 <Proxy "balancer://servidores_web">
-    BalancerMember http://192.168.10.11
-    BalancerMember http://192.168.10.12
+    BalancerMember [http://192.168.10.11](http://192.168.10.11)
+    BalancerMember [http://192.168.10.12](http://192.168.10.12)
     ProxySet lbmethod=byrequests
 </Proxy>
 
@@ -80,3 +85,28 @@ sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl
     ProxyPassReverse / balancer://servidores_web/
 </VirtualHost>
 ```
+Comprobación del estado de Apache y las reglas del firewall en `JavierRamirezBalanceador`:
+
+![Estado de Apache y UFW en el balanceador](images/status_apache_ufw.png)
+
+## 5. Configuración de la Capa 2: Servidores Web (Backend)
+
+Las máquinas `JavierRamirezWeb1` y `JavierRamirezWeb2` alojan la aplicación web en PHP conectada al servidor de base de datos de la Capa 3. Para identificar qué servidor atiende cada petición, cada nodo muestra una cabecera con su nombre (`JavierRamirezWeb1` y `JavierRamirezWeb2`).
+
+### Comprobación en `JavierRamirezWeb1`
+
+![Comprobación en JavierRamirezWeb1](images/comprobacion_web1.png)
+
+### Comprobación en `JavierRamirezWeb2`
+
+![Comprobación en JavierRamirezWeb2](images/comprobacion_web2.png)
+
+## 6. Configuración de la Capa 3: Servidor de Base de Datos
+
+La máquina `JavierRamirezBBDD` aloja el gestor de base de datos **MariaDB**, configurado para aceptar conexiones únicamente desde la red privada de los servidores web de la Capa 2 y garantizar la persistencia de datos independientemente del servidor web que atienda la solicitud.
+
+Comprobación del servicio de base de datos y firewall en `JavierRamirezBBDD`:
+
+![Comprobación en JavierRamirezBBDD](images/comprobacion_bbdd.png)
+
+## 7. Seguridad: Reglas de firewall (UFW)

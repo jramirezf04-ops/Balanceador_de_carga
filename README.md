@@ -1,6 +1,6 @@
 # Balanceador de Carga con Apache en Arquitectura de 3 Niveles
 
-Práctica de **Implantación de Aplicaciones Web (2.º ASIR)** consistente en el despliegue automatizado de una aplicación web sobre una arquitectura de tres niveles con balanceo de carga en Apache, seguridad perimetral mediante firewall (UFW) y cifrado HTTPS con certificado válido de Let's Encrypt.
+Práctica de **Implantación de Aplicaciones Web** consistente en el despliegue automatizado de una aplicación web sobre una arquitectura de tres niveles con balanceo de carga en Apache, seguridad perimetral mediante firewall (UFW) y cifrado HTTPS con certificado válido de Let's Encrypt.
 
 
 ## Índice

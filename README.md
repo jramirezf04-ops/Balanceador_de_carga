@@ -51,7 +51,7 @@ Comprobación del estado de las cuatro máquinas virtuales ejecutando `vagrant s
 
 ## 4. Configuración de la Capa 1: Balanceador de carga con Apache
 
-En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los módulos necesarios para actuar como proxy inverso y balanceador de carga mediante el algoritmo de reparto por peticiones (*Round Robin*):
+En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los módulos necesarios para actuar como proxy inverso y balanceador de carga mediante el algoritmo de reparto por peticiones:
 
 ```bash
 sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl
@@ -91,7 +91,7 @@ Comprobación del estado de Apache y las reglas del firewall en `JavierRamirezBa
 
 ## 5. Configuración de la Capa 2: Servidores Web (Backend)
 
-Las máquinas `JavierRamirezWeb1` y `JavierRamirezWeb2` alojan la aplicación web en PHP conectada al servidor de base de datos de la Capa 3. Para identificar qué servidor atiende cada petición, cada nodo muestra una cabecera con su nombre (`JavierRamirezWeb1` y `JavierRamirezWeb2`).
+Las máquinas `JavierRamirezWeb1` y `JavierRamirezWeb2` alojan la aplicación web en PHP conectada al servidor de base de datos de la Capa 3. Para identificar qué servidor atiende cada petición, cada nodo muestra una cabecera con su nombre.
 
 ### Comprobación en `JavierRamirezWeb1`
 

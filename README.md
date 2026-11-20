@@ -133,3 +133,15 @@ Verificación del certificado emitido con `sudo certbot certificates`:
 ![Certificado Let's Encrypt](images/certbot_certificates.png)
 
 ## 9. Pruebas de funcionamiento
+
+Al acceder a `https://javierramirez-iaw.duckdns.org:8443` desde el navegador se comprueba:
+
+1. **Conexión segura (HTTPS):** El navegador muestra el candado de seguridad con un certificado válido emitido por Let's Encrypt para el dominio.
+2. **Balanceo de carga:** Al recargar la página (`F5`), las peticiones alternan entre `JavierRamirezWeb1` y `JavierRamirezWeb2`.
+3. **Persistencia en la base de datos:** Al añadir un nuevo registro desde *Add New Data*, los datos se guardan en `JavierRamirezBBDD` y son visibles desde ambos servidores web.
+
+## 10. Screencast de demostración
+
+En el siguiente vídeo se muestra el funcionamiento de la aplicación desplegada, la validez del certificado SSL, el balanceo de carga entre los dos servidores web y el guardado de datos en la base de datos:
+
+* **Enlace al screencast:** [Ver demostración del proyecto](AQUI_TU_ENLACE_AL_VIDEO)

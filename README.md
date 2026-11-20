@@ -55,3 +55,28 @@ En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los m
 
 ```bash
 sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl
+<Proxy "balancer://servidores_web">
+    BalancerMember http://192.168.10.11
+    BalancerMember http://192.168.10.12
+    ProxySet lbmethod=byrequests
+</Proxy>
+
+<VirtualHost *:80>
+    ServerName javierramirez-iaw.duckdns.org
+    ProxyPreserveHost On
+    ProxyPass / balancer://servidores_web/
+    ProxyPassReverse / balancer://servidores_web/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName javierramirez-iaw.duckdns.org
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/javierramirez-iaw.duckdns.org/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/javierramirez-iaw.duckdns.org/privkey.pem
+
+    ProxyPreserveHost On
+    ProxyPass / balancer://servidores_web/
+    ProxyPassReverse / balancer://servidores_web/
+</VirtualHost>
+```

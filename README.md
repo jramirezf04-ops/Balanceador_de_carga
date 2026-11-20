@@ -110,3 +110,26 @@ Comprobación del servicio de base de datos y firewall en `JavierRamirezBBDD`:
 ![Comprobación en JavierRamirezBBDD](images/comprobacion_bbdd.png)
 
 ## 7. Seguridad: Reglas de firewall (UFW)
+
+Para permitir únicamente el tráfico necesario en cada nivel (equivalente a las listas de control de acceso y grupos de seguridad), se ha configurado **UFW** con política por defecto de denegación de tráfico entrante (`default deny incoming`):
+
+* **Capa 1 (`JavierRamirezBalanceador`):** Permite únicamente SSH (`22/tcp`), HTTP (`80/tcp`) y HTTPS (`443/tcp`).
+* **Capa 2 (`JavierRamirezWeb1` y `JavierRamirezWeb2`):** Permite SSH para administración y tráfico HTTP procedente del balanceador.
+* **Capa 3 (`JavierRamirezBBDD`):** Permite SSH para administración y tráfico MariaDB (`3306/tcp`) procedente únicamente de los servidores web.
+
+
+## 8. Instalación del certificado SSL/TLS con Certbot y Let's Encrypt
+
+Para obtener un certificado SSL/TLS válido en un entorno virtualizado local, se ha registrado el subdominio gratuito **`javierramirez-iaw.duckdns.org`** en DuckDNS apuntando a `127.0.0.1` y se ha validado mediante desafío **DNS-01** con **Certbot**:
+
+```bash
+sudo certbot certonly --manual --preferred-challenges dns -d javierramirez-iaw.duckdns.org
+```
+
+Tras publicar el registro `TXT` en `_acme-challenge.javierramirez-iaw.duckdns.org`, Let's Encrypt emitió el certificado (`fullchain.pem`) y la clave privada (`privkey.pem`) en `/etc/letsencrypt/live/javierramirez-iaw.duckdns.org/`, que se vincularon al `VirtualHost` del puerto `443` en Apache.
+
+Verificación del certificado emitido con `sudo certbot certificates`:
+
+![Certificado Let's Encrypt](images/certbot_certificates.png)
+
+## 9. Pruebas de funcionamiento

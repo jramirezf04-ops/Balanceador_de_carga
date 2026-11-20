@@ -45,3 +45,13 @@ vagrant up
 ```
 
 
+Comprobación del estado de las cuatro máquinas virtuales ejecutando `vagrant status`:
+
+![Estado de las máquinas en Vagrant](images/vagrant_status.png)
+
+## 4. Configuración de la Capa 1: Balanceador de carga con Apache
+
+En la máquina `JavierRamirezBalanceador` se ha instalado Apache junto con los módulos necesarios para actuar como proxy inverso y balanceador de carga mediante el algoritmo de reparto por peticiones (*Round Robin*):
+
+```bash
+sudo a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl

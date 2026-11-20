@@ -61,8 +61,8 @@ A continuación, en el archivo `/etc/apache2/sites-available/000-default.conf` s
 
 ```apache
 <Proxy "balancer://servidores_web">
-    BalancerMember [http://192.168.10.11](http://192.168.10.11)
-    BalancerMember [http://192.168.10.12](http://192.168.10.12)
+    BalancerMember http://192.168.10.11
+    BalancerMember http://192.168.10.12
     ProxySet lbmethod=byrequests
 </Proxy>
 

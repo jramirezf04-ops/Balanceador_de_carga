@@ -42,3 +42,6 @@ Para iniciar todo el escenario se ejecuta:
 
 ```bash
 vagrant up
+```
+
+
